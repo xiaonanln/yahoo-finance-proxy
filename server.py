@@ -74,13 +74,14 @@ class DownloadTableCsv(MyRequestHandler):
         else:
             logging.debug("Loaded %s from symbolsdb: %s ~ %s", symbol, startDate, stopDate)
 
+        self.set_header("Content-Type", "text/html")
         self.write(data)
 
 def make_app():
     return tornado.web.Application([
         (r"/table.csv", DownloadTableCsv),
         (r"/", MainHandler),
-    ])
+    ], compress_response=True)
 
 if __name__ == "__main__":
     app = make_app()
